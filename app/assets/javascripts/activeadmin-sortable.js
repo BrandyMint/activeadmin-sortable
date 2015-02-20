@@ -6,13 +6,16 @@
   $.fn.activeAdminSortable = function() {
     this.sortable({
       update: function(event, ui) {
-        var url = ui.item.find('[data-sort-url]').data('sort-url');
+        var item = ui.item.find('[data-sort-url]')
+        var url = item.data('sort-url');
+        var actionOnSuccess = item.data('sort-success-action')
 
         $.ajax({
           url: url,
           type: 'post',
           data: { position: ui.item.index() + 1 },
-          success: function() { window.location.reload() }
+          error: function() { alert("Saving sortable error"); },
+          success: function() { if (actionOnSuccess=='nothing') { return; } else { window.location.reload(); } }
         });
       }
     });
