@@ -22,11 +22,12 @@
         var actionOnSuccess = item.data('sort-success-action')
         var position = item.data('data-sort-position') || (ui.item.index() + 1);
         var method   = item.data('data-sort-post') || 'post'
+        var customParams = typeof item.data('sort-custom-params') === 'object' ? item.data('sort-custom-params') : {}
 
         $.ajax({
           url:  url,
           type: method,
-          data: { position: position },
+          data: $.extend(customParams, { position: position }),
           error: function() { alert("Saving sortable error"); },
           success: function() { if (actionOnSuccess=='nothing') { return; } else { window.location.reload(); } }
         });
